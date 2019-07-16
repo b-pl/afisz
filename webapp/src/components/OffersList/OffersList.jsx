@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import Offer from '../Offer/Offer'
 
 class OffersList extends React.Component {
   constructor(props) {
@@ -9,7 +9,8 @@ class OffersList extends React.Component {
   render() {
     return(
       <div>
-        <p>This is OffersList Component</p>
+        <Offer />
+        <Offer />
       </div>
     )
   }

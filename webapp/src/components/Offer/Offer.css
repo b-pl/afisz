@@ -1,0 +1,45 @@
+/* Smartphones (portrait) */
+@media only screen and (max-width : 320px) {
+  .Offer {
+    width: 95%;
+    height: 250px;
+    border: 1px solid #000;
+    margin: auto;
+  }
+
+  .Offer__picture--listview {
+    width: 100%;
+    height: 200px;
+  }
+
+  .Offer__info--ul {
+    list-style-type: none;
+    padding-inline-start: 0.2em;
+    margin-top: 0.2em;
+  }
+
+  .Offer__title--listview {
+    /* float: left; */
+    font-size: 14px;
+  }
+
+  .Offer__price--listview {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 0.5em;
+  }
+
+  .Offer__category--listview {
+    float: left;
+    font-size: 14px;
+    margin-top: 1em;
+  }
+
+  .Offer__date--listview {
+    float: right;
+    font-size: 14px;
+    margin-top: 1em;
+  }
+}
+/* Styles */
