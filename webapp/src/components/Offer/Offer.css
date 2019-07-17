@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
 /* Smartphones (portrait) */
 @media only screen and (max-width : 320px) {
   .Offer {
     width: 95%;
-    height: 250px;
+    max-height: 276px;
     border: 1px solid #000;
-    margin: auto;
+    margin: 0.5em auto 0.5em auto;
   }
 
   .Offer__picture--listview {
@@ -12,34 +14,27 @@
     height: 200px;
   }
 
-  .Offer__info--ul {
-    list-style-type: none;
-    padding-inline-start: 0.2em;
-    margin-top: 0.2em;
-  }
-
-  .Offer__title--listview {
-    /* float: left; */
-    font-size: 14px;
+  .Offer__info {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
   }
 
   .Offer__price--listview {
     text-align: center;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 18px;
     margin-top: 0.5em;
   }
 
-  .Offer__category--listview {
-    float: left;
+  .Offer__info--flexbox {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5em;
+    justify-content: space-between;
     font-size: 14px;
-    margin-top: 1em;
   }
 
-  .Offer__date--listview {
-    float: right;
-    font-size: 14px;
-    margin-top: 1em;
-  }
 }
 /* Styles */

@@ -4,7 +4,7 @@ import OffersList from '../components/OffersList/OffersList'
 
 const routes = {
   "/": () => <Homepage />,
-  "/offers": () => <OffersList />
+  "/offers": () => <OffersList />,
 };
 
 export default routes;

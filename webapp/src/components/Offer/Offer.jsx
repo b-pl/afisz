@@ -6,15 +6,23 @@ class Offer extends React.Component {
     super(props)
   }
 
+  handleClick(e) {
+    e.preventDefault()
+    return document.location = 'https://google.com'
+  }
+
   render() {
     return(
       <div className='Offer'>
-        <img src="https://via.placeholder.com/500" className='Offer__picture--listview' />
+        <img src="https://via.placeholder.com/500" className='Offer__picture--listview'
+          onClick={this.handleClick} />
         <div className='Offer__info'>
-          <div className='Offer__title--listview'>Huawei P20 Pro Blue [NEW]</div>
-          <div className='Offer__price--listview'>$599.99</div>
-          <span className='Offer__category--listview'>Phones</span>
-          <span className='Offer__date--listview'>13.07.19</span>
+          <div className='Offer__title--listview' onClick={this.handleClick}>{this.props.title}</div>
+          <div className='Offer__price--listview' onClick={this.handleClick}>${this.props.price}</div>
+          <div className='Offer__info--flexbox'>
+            <a href='https://www.allegro.pl/' className='Offer__category--listview'>{this.props.category}</a>
+            <span className='Offer__date--listview'>{this.props.date}</span>
+          </div>
         </div>
       </div>
     )
@@ -22,3 +30,8 @@ class Offer extends React.Component {
 }
 
 export default Offer
+
+// Questions
+// 
+// How to make link. Is it better to create another wrapper-div and make it a link
+// or is it better to create independent links for every div
