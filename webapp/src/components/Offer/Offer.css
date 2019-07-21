@@ -1,15 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
-/* Smartphones (portrait) */
-@media only screen and (max-width : 320px) {
-  .Offer {
-    width: 95%;
-    max-height: 276px;
-    border: 1px solid #000;
-    margin: 0.5em auto 0.5em auto;
+/* Smartphones */
+@media only screen and (min-width : 320px) and (max-width : 599px) {
+  body {
+    background-color: #FEE6DC;
   }
 
-  .Offer__picture--listview {
+  /* #F3DFE7
+  #F4FEDC
+  
+  shadow
+  #F3E1DF*/
+  .Offer {
+    background-color: #F6FCE8;
+    max-height: 276px;
+    /* border: 1px solid #000; */
+    margin: 1em auto 0.5em auto;
+    box-shadow: 2px 2px #FAD2C1;
+  }
+
+  .Offer__picture {
     width: 100%;
     height: 200px;
   }
@@ -22,16 +32,29 @@
     font-size: 16px;
   }
 
-  .Offer__price--listview {
+  .Offer__title {
+    padding-left: 0.25em;
+  }
+
+  .Offer__price {
     text-align: center;
     font-size: 18px;
     margin-top: 0.5em;
   }
 
+  .Offer__category {
+    padding-left: 0.25em;
+  }
+  
+  .Offer__date {
+    padding-right: 0.25em;
+  }
+
   .Offer__info--flexbox {
     display: flex;
     flex-direction: row;
-    margin-top: 0.5em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
     justify-content: space-between;
     font-size: 14px;
   }
