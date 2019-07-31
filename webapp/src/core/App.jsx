@@ -1,5 +1,5 @@
 import {useRoutes} from 'hookrouter'
-import Routes from './Routes'
+import Routes from './Routes.js'
 
 function App() {
   const routeResult = useRoutes(Routes)

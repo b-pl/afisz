@@ -7,13 +7,13 @@ body {
   background-color: var(--body-bg-color);
 }
 
-.Offer {
+.offer {
   background-color: var(--offer-bg-color);
   margin: 1em auto 0.5em auto;
   box-shadow: 2px 2px var(--offer-shadow-color);
 }
 
-.Offer__info {
+.description {
   display: flex;
   flex-direction: column;
   font-family: 'Lato', sans-serif;
@@ -24,36 +24,36 @@ body {
 /* Smartphones */
 @media only screen and (min-width : 320px) and (max-width : 599px) {
 
-  .Offer {
+  .offer {
     max-height: 276px;
   }
 
-  .Offer__picture {
+  .offer__picture {
     width: 100%;
     height: 200px;
   }
 
-  .Offer__title {
+  .offer__title {
     padding-left: 0.25em;
     width: 300px;
   }
 
-  .Offer__price {
+  .offer__price {
     text-align: center;
     font-size: 18px;
     margin-top: 0.5em;
     color: #FF0000;
   }
 
-  .Offer__category {
+  .offer__category {
     padding-left: 0.25em;
   }
   
-  .Offer__date {
+  .offer__date {
     padding-right: 0.25em;
   }
 
-  .Offer__info--flexbox {
+  .extra-details {
     display: flex;
     flex-direction: row;
     margin-top: 0.25em;
@@ -68,37 +68,37 @@ body {
 /* Tablets */
 @media only screen and (min-width : 600px) and (max-width : 1199px) {
 
-  .Offer {
+  .offer {
     max-height: 276px;
     text-align: center;
   }
 
-  .Offer__picture {
+  .offer__picture {
     width: 80%;
     height: 200px;
     margin-top: 0.5em;
   }
 
-  .Offer__title {
+  .offer__title {
     padding-left: 0.25em;
   }
 
-  .Offer__price {
+  .offer__price {
     text-align: center;
     font-size: 18px;
     margin-top: 0.25em;
     color: #FF0000;
   }
 
-  .Offer__category {
+  .offer__category {
     padding-left: 10%;
   }
   
-  .Offer__date {
+  .offer__date {
     padding-right: 10%;
   }
 
-  .Offer__info--flexbox {
+  .extra-details {
     display: flex;
     flex-direction: row;
     margin-top: 0.25em;
@@ -112,31 +112,31 @@ body {
 /* Desktops */
 @media only screen and (min-width : 1200px) and (max-width : 1800px) {
 
-  .Offer {
+  .offer {
     display: flex;
     flex-direction: row;
     max-height: 300px;
     width: 80%;
   }
 
-  .Offer__picture {
+  .offer__picture {
     height: 100%;
   }
 
-  .Offer__title {
+  .offer__title {
     padding-left: 10px;
     font-size: 24px;
     margin-bottom: 2em;
     word-wrap: break-word;
   }
 
-  .Offer__price {
+  .offer__price {
     padding-left: 10px;
     font-size: 26px;
     color: #FF0000;
   }
 
-  .Offer__info--flexbox {
+  .extra-details {
     padding-left: 10px;
     margin-top: 3em;
     display: flex;
@@ -144,7 +144,7 @@ body {
     font-size: 14px;
   }
 
-  .Offer__date {
+  .offer__date {
     font-size: 12px;
     margin-bottom: 1em;
   }
