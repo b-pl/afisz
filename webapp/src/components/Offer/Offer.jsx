@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Offer.css'
+import { A } from 'hookrouter'
 
 class Offer extends React.Component {
   constructor(props) {
@@ -9,9 +10,9 @@ class Offer extends React.Component {
   render() {
     return(
       <div className='offer' id={this.props.id}>
-        <a href='https://google.com'><img src="https://www.stevensegallery.com/284/196" className='offer__picture' /></a>
-        <div className='description'>
-          <a href='https://google.com'><div className='offer__title'>{this.props.title}</div></a>
+        <A href='/offers/:id'><img src="https://www.stevensegallery.com/284/196" className='offer__picture' /></A>
+        <div className='offer__description'>
+          <A href='/offers/:id'><div className='offer__title'>{this.props.title}</div></A>
           <div className='offer__price'>${this.props.price}</div>
           <div className='extra-details'>
             <span className='offer__category'>{this.props.category}</span>
