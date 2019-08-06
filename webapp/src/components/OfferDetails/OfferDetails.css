@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+body {
+  --body-bg-color: #FEE6DC;
+  --offer-bg-color: #F6FCE8;
+  --offer-shadow-color: #FAD2C1;
+  background-color: var(--body-bg-color);
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+/* Smartphones */
+@media only screen and (min-width : 320px) and (max-width : 599px) {
+
+  .offer-details__picture {
+    width: 100%;
+    height: 200px;
+    margin: 0;
+    box-shadow: 0.25px 0.5px 2px #4c4c4c;
+  }
+
+  .offer-details__basics {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0.1em 0.25em 0.1em 0.15em;
+  }
+
+  .offer-details__extras {
+    font-size: 10px;
+    margin: 0.25em;
+    margin-left: 0.35em;
+  }
+
+  .offer-details__extras:after {
+    content: '';
+    border: 0.25px solid #4c4c4c;
+    box-shadow: 0.25px 0.25px 0.5px #4c4c4c;
+    position: absolute;
+    top: 240px;
+    left: 0;
+    width: 100%;
+  }
+
+  .offer-details__description {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0.5em 0em;
+    text-align: justify;
+    font-size: 12px;
+  }
+
+  .offer-details__description:after {
+    display: inline-block;
+    content: '';
+    border: 0.25px solid #4c4c4c;
+    box-shadow: 0.25px 0.25px 0.5px #4c4c4c;
+    margin: 0.1em;
+    width: 100%;
+  }
+
+  .offer-description__text {
+    margin: 0.5em 0.5em 0 0.5em;
+  }
+
+  .contact-info__name, .contact-info__email, .contact-info__phone {
+    display: flex;
+    align-items: center;
+    margin: 0.5em;
+  }
+
+  .contact-info__icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .contact-info__text {
+    margin-left: 1em;
+  }
+}
+/* Styles */
