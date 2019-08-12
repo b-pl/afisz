@@ -79,3 +79,67 @@ body {
   }
 }
 /* Styles */
+
+/* Tablets */
+@media only screen and (min-width : 600px) and (max-width : 1800px) {
+
+  .offer-details__picture {
+    display: block;
+    width: 80%;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .offer-details__basics {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10%;
+    margin-top: 0.5em;
+  }
+
+  .offer-details__extras {
+    width: 80%;
+    font-size: 10px;
+    margin: 0.25em;
+    margin-left: 10%;
+  }
+
+  .offer-details__description {
+    width: 80%;
+    height: 200px;
+    font-family: 'Segoe UI', sans-serif;
+    margin-left: 10%;
+    margin-top: 1em;
+    margin-bottom: 1em;   
+    text-align: justify;
+    font-size: 12px;
+    background-color: #dcf4fe;
+  }
+
+  .offer-description__text {
+    margin: 1em;
+  }
+
+  .contact-info {
+    width: 80%;
+    margin-left: 10%;
+  }
+
+  .contact-info__name, .contact-info__email, .contact-info__phone {
+    display: flex;
+    align-items: center;
+    margin: 0.5em;
+  }
+
+  .contact-info__icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 1em;
+  }
+
+}
+/* Styles */
