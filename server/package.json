@@ -9,6 +9,20 @@
   "author": "b-pl",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^18.1.0"
+    "@babel/register": "^7.5.5",
+    "hapi": "^18.1.0",
+    "hapi-react-views": "^10.0.1",
+    "inert": "^5.1.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "vision": "^5.4.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "gulp-babel": "^8.0.0"
   }
 }

@@ -4,6 +4,6 @@ import Routes from './Routes'
 function App () {
   const routeResult = useRoutes(Routes)
   return routeResult
-}
+};
 
 export default App
