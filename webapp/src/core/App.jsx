@@ -1,9 +1,9 @@
-import {useRoutes} from 'hookrouter'
+import { useRoutes } from 'hookrouter'
 import Routes from './Routes'
 
-function App() {
+function App () {
   const routeResult = useRoutes(Routes)
   return routeResult
 }
 
-export default App;
+export default App
