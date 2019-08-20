@@ -41,5 +41,6 @@
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-standard": "^4.0.0",
     "hookrouter": "^1.2.3"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
