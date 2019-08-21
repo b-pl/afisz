@@ -5,7 +5,7 @@ class OffersList extends React.Component {
   constructor (props) {
     super (props)
     this.state = {
-      offer: [],
+      offers: [],
     }
   }
 
@@ -15,22 +15,21 @@ class OffersList extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        this.setState({
-          offer: data
-        })
+        const offers = data
+        this.setState({offers})
       })  
   }
 
   render () {
     return (
       <div>
-        {this.state.offer && this.state.offer.map( offer => (
+        {this.state.offers && this.state.offers.map( offer => (
           <Offer
-          title={offer.title}
-          price={offer.price}
-          category={offer.category}
-          date={offer.date}
-          offerID={offer.offerID} />
+            title={offer.title}
+            price={offer.price}
+            category={offer.category}
+            date={offer.date}
+            offerID={offer.offerID} />
         ))}
       </div>
     )

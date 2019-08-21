@@ -21,22 +21,14 @@ class OfferDetails extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/offer/' + this.props.offerID, {
+    
+    fetch(`http://localhost:3001/offer/${this.props.offerID}`, {
       accept: 'application/json',
     })
       .then(res => res.json())
       .then(data => {
-        this.setState({
-          offerID: data[0].offerID,
-          title: data[0].title,
-          price: data[0].price,
-          category: data[0].category,
-          date: data[0].date,
-          email: data[0].email,
-          name: data[0].name,
-          phone: data[0].phone,
-          description: data[0].description
-        })
+        const offer = data[0]
+        this.setState(offer)
       })  
   }
 

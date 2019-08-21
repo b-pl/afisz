@@ -1,6 +1,7 @@
 'use strict';
 
-const Hapi = require('hapi');
+const Hapi = require('hapi')
+const knex = require('knex')
 require('dotenv').config()
 
 const init = async () => {
@@ -10,7 +11,7 @@ const init = async () => {
         host: 'localhost'
     });
 
-    let knex = require('knex')({
+    const conn = (knex)({
       client: 'mysql',
       connection: {
         host : process.env.DB_HOST,
@@ -21,6 +22,7 @@ const init = async () => {
       }
     });
 
+    // Routing to OFFERS LIST
     server.route({
       config: {
         cors: {
@@ -30,11 +32,12 @@ const init = async () => {
       method: 'GET',
       path: '/offers_list',
       handler: (request, h) => {
-        let temp = knex.select().table('offers_list').then()
-        return temp;
+        let db_offerslist = conn.select().table('offers_list')
+        return db_offerslist;
       }
     });
 
+    // Routing to OFFER DETAILS
     server.route({
       config: {
         cors: {
@@ -44,11 +47,20 @@ const init = async () => {
       method: 'GET',
       path: '/offer/{id}',
       handler: (request, h) => {
-        let tempID = encodeURIComponent(request.params.id);
-        let temp = knex.select().table('offers_list').where('offerID', tempID).then()
-        return temp;
+        let db_offerID = encodeURIComponent(request.params.id);
+        let db_offer = conn.select().table('offers_list').where('offerID', db_offerID)
+        return db_offer;
       }
     });
+
+    // Routing to 404
+    server.route({
+      method: '*',  
+      path: '/{any*}',
+      handler: (request, h) => {
+        return '404 error! Page not found!'
+      }
+    })
 
     await server.start();
     console.log('Server running on %s', server.info.uri);
