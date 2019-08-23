@@ -16,11 +16,19 @@ describe('GET /', () => {
     await server.stop()
   })
 
-  it('responds with 200', async() => {
+  it('/offers_list responds with 200', async() => {
     const res = await server.inject({
       method: 'GET',
-      url: '/'
+      url: '/offers_list'
     })
     expect(res.statusCode).to.equal(200)
   })
+
+  it('/offer/{id} responds with 200'), async() => {
+    const res = await server.inject({
+      method: 'GET',
+      url: `/offer/$id`
+    })
+    expect(res.statusCode).to.equal(200)
+  }
 })

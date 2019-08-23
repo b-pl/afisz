@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "labtest": "lab -v **/*.test.js"
+    "labtest": "lab -v ./test/test.js"
   },
   "author": "b-pl",
   "license": "ISC",
