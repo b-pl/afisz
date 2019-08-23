@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "labtest": "lab -v **/*.test.js"
   },
   "author": "b-pl",
   "license": "ISC",
@@ -15,8 +16,10 @@
     "mysql": "^2.17.1"
   },
   "devDependencies": {
+    "@hapi/code": "^6.0.0",
     "@hapi/eslint-config-hapi": "^12.2.0",
     "@hapi/eslint-plugin-hapi": "^4.3.4",
+    "@hapi/lab": "^20.1.0",
     "dotenv": "^8.1.0",
     "eslint": "^6.2.1",
     "eslint-config-standard": "^14.0.1",
