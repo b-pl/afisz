@@ -6,7 +6,8 @@ function Homepage (props) {
 
   return (
     <div>
-      <A href="/offers">Offers</A>
+      <p><A href='/offers'>Offers</A></p>
+      <p><A href='/new-offer'>New Offer</A></p>
     </div>
   )
 }

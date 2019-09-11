@@ -21,7 +21,6 @@ class OfferDetails extends React.Component {
   }
 
   componentDidMount() {
-    
     fetch(`http://localhost:3001/offer/${this.props.offerID}`, {
       accept: 'application/json',
     })
