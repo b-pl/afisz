@@ -12,7 +12,12 @@ const app = {
 function init () {
   const server = Hapi.server({
     port: 3001,
-    host: 'localhost'
+    host: 'localhost',
+    routes: {
+      cors: {
+        origin: ['*']
+      }
+    }
   })
 
   const conn = knex({
@@ -28,11 +33,6 @@ function init () {
 
   // Routing to OFFERS LIST
   server.route({
-    config: {
-      cors: {
-        origin: ['*']
-      }
-    },
     method: 'GET',
     path: '/offers_list',
     handler: (request, h) => {
@@ -43,17 +43,43 @@ function init () {
 
   // Routing to OFFER DETAILS
   server.route({
-    config: {
-      cors: {
-        origin: ['*']
-      }
-    },
     method: 'GET',
     path: '/offer/{id}',
     handler: (request, h) => {
       const dbOfferID = encodeURIComponent(request.params.id)
       const dbOffer = conn.select().table('offers_list').where('offerID', dbOfferID)
       return dbOffer
+    }
+  })
+
+  // Routing to NEW OFFER
+  // Get categories list
+  server.route({
+    method: 'GET',
+    path: '/offers',
+    handler: (request, h) => {
+      const dbCategories = conn.select('category').from('categories_list').orderBy('category')
+      return dbCategories
+    }
+  })
+
+  // Get IDs
+  server.route({
+    method: 'GET',
+    path: '/newofferID',
+    handler: (request, h) => {
+      const lastID = conn.select('offerID').from('offers_list').orderBy('offerID', 'desc').limit(1)
+      return lastID
+    }
+  })
+
+  // Send data to DB and redirect
+  server.route({
+    method: 'POST',
+    path: '/offers',
+    handler: (request, h) => {
+      return conn('offers_list').insert(request.payload)
+      .then(() => h.redirect('http://localhost:3000/offers/' + request.payload.offerID))
     }
   })
 
