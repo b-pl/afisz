@@ -2,6 +2,7 @@ import React from 'react'
 import './NewOffer.css'
 import Modal from 'react-modal'
 import { A } from 'hookrouter'
+import host from '../../core/config'
 
 class NewOffer extends React.Component {
   constructor (props) {
@@ -9,7 +10,7 @@ class NewOffer extends React.Component {
     this.state = {
       category: [],
       modalIsOpen: false,
-      lastID: []
+      lastID: [],
     }
 
     this.openModal = this.openModal.bind(this)
@@ -51,7 +52,7 @@ class NewOffer extends React.Component {
   }
 
   componentDidMount () {
-    Promise.all([fetch(`http://localhost:3001/offers`), fetch(`http://localhost:3001/newofferID`)])
+    Promise.all([fetch(`${host}/offers`), fetch(`${host}/newofferID`)])
       .then(([category, lastID]) => {
         return Promise.all([category.json(), lastID.json()])
       })
@@ -66,7 +67,7 @@ class NewOffer extends React.Component {
   render () {
     return (
       <div className='new-offer' id='new-offer'>
-        <form className='form' action='http://localhost:3001/offers' method='POST'>
+        <form className='form' action={host+'/offers'} method='POST'>
           <div className='form__input-block'>
             <label className='form__label'>Category: </label>
             <select name='category' className='form__input'>

@@ -1,5 +1,6 @@
 import React from 'react'
 import Offer from '../Offer/Offer'
+import host from '../../core/config'
 
 class OffersList extends React.Component {
   constructor (props) {
@@ -10,7 +11,7 @@ class OffersList extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/offers_list', {
+    fetch(`${host}/offers_list`, {
       accept: 'application/json',
     })
       .then(res => res.json())

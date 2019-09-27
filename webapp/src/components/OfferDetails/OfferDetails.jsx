@@ -3,6 +3,7 @@ import './OfferDetails.css'
 import avatar from '../../images/avatar_placeholder.png'
 import email from '../../images/email_placeholder.png'
 import phone from '../../images/phone_placeholder.png'
+import host from '../../core/config'
 
 class OfferDetails extends React.Component {
   constructor (props) {
@@ -21,7 +22,7 @@ class OfferDetails extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3001/offer/${this.props.offerID}`, {
+    fetch(`${host}/offer/${this.props.offerID}`, {
       accept: 'application/json',
     })
       .then(res => res.json())
