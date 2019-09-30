@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+body {
+  --body-bg-color: #fee6dc;
+  --offer-bg-color: #F6FCE8;
+  --offer-shadow-color: #FAD2C1;
+  background-color: var(--body-bg-color);
+  font-family: 'Lato', sans-serif;
+}
+
+/* Smartphones */
+@media only screen and (min-width : 320px) and (max-width : 1800px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .emoji {
+    font-size: 150px;
+    margin-top: 0.2em;
+  }
+
+  .message {
+    font-weight: bold;
+  }
+
+  .message__text--big {
+    font-size: 30px;
+    margin: 5px;
+  }
+
+  .message__text {
+    font-size: 20px;
+    margin: 5px;
+  }
+
+  .message__text--small {
+    font-size: 10px;
+    margin: 5px;
+  }
+
+  .button {
+    font-size: 16px;
+    color: #fff;
+    box-shadow: 0px 3px 6px #abc32f;
+    text-shadow: -1px 0 #707070, 0 1px #707070, 1px 0 #707070, 0 -1px #707070;
+    background-color: #b5e550;
+    border: 1px solid #707070;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+}
+/* Styles */
