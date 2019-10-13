@@ -85,7 +85,6 @@ class NewOffer extends React.Component {
           category
         })
       })
-      // this.getDate();
   }
 
   render () {
