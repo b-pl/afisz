@@ -39,6 +39,7 @@
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-standard": "^4.0.0",
     "hookrouter": "^1.2.3",
+    "http-proxy-middleware": "^0.20.0",
     "react-modal": "^3.10.1"
   }
 }

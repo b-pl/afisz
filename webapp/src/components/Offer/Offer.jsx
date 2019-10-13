@@ -2,26 +2,20 @@ import React from 'react'
 import './Offer.css'
 import { A } from 'hookrouter'
 
-class Offer extends React.Component {
-  constructor (props) {
-    super (props)
-  }
-
-  render () {
-    return (
-      <div className='offer' id={this.props.id}>
-        <A href={'/offers/' + this.props.offerID}><img src="https://www.stevensegallery.com/284/196" className='offer__picture' /></A>
-        <div className='offer__description'>
-          <A href={'/offers/' + this.props.offerID}><div className='offer__title'>{this.props.title}</div></A>
-          <div className='offer__price'>${this.props.price}</div>
-          <div className='extra-details'>
-            <span className='offer__category'>{this.props.category}</span>
-            <span className='offer__date'>{this.props.date}</span>
-          </div>
+function Offer(props) {
+  return (
+    <div className='offer'>
+      <A href={'/offers/' + props.offerID}><img src="https://www.stevensegallery.com/284/196" alt="offer_pic" className='offer__picture' /></A>
+      <div className='offer__description'>
+        <A href={'/offers/' + props.offerID}><div className='offer__title'>{props.title}</div></A>
+        <div className='offer__price'>${props.price}</div>
+        <div className='extra-details'>
+          <span className='offer__category'>{props.category}</span>
+          <span className='offer__date'>{props.date}</span>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default Offer

@@ -6,7 +6,7 @@ function NoPageFound(props) {
   return(
     <div className="container">
       <div className="emoji">
-        <span>🙊</span>
+        <span role="img" aria-label="monkey">🙊</span>
       </div>
       <div className="message">
         <div className="message__text--big">Oh no!</div>

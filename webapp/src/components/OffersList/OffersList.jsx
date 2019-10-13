@@ -30,7 +30,7 @@ class OffersList extends React.Component {
             price={offer.price}
             category={offer.category}
             date={offer.date}
-            offerID={offer.offerID} />
+            offerID={offer.id} />
         ))}
       </div>
     )

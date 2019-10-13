@@ -3,7 +3,6 @@ import Homepage from '../components/Homepage/Homepage'
 import OffersList from '../components/OffersList/OffersList'
 import OfferDetails from '../components/OfferDetails/OfferDetails'
 import NewOffer from '../components/NewOffer/NewOffer'
-import NoPageFound from '../components/NoPageFound/NoPageFound'
 
 const routes = {
   '/': () => <Homepage />,
