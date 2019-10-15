@@ -4,6 +4,17 @@ import Modal from 'react-modal'
 import { A } from 'hookrouter'
 import host from '../../core/config'
 
+const validEmailRegex = 
+  RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
+
+const validateForm = (errors) => {
+  let valid = true
+  Object.values(errors).forEach(
+    (val) => val.length > 0 && (valid = false)
+  )
+  return valid
+}
+
 class NewOffer extends React.Component {
   constructor (props) {
     super(props)
@@ -11,7 +22,14 @@ class NewOffer extends React.Component {
       category: [],
       modalIsOpen: false,
       selectedCategory: 'Art',
-      date: new Date().toLocaleString().slice(0,10)
+      date: new Date().toLocaleString().slice(0,10),
+      errors: {
+        title: '',
+        description: '',
+        name: '',
+        phone: '',
+        email: ''
+      }
     }
 
     this.openModal = this.openModal.bind(this)
@@ -24,38 +42,62 @@ class NewOffer extends React.Component {
     const target = e.target
     const value = target.value
     const name = target.name
+    const errors = this.state.errors
+
+    switch(name) {
+      case 'title':
+        errors.title = value.length <= 3 ? 'Title must be longer than 3 characters!' : ''
+        break
+      case 'description':
+        errors.description = value.length <= 10 ? 'Description must containt at least one sentence' : ''
+        break
+      case 'name':
+        errors.name = value.length < 3 ? 'Name must be at least 3 characters long' : ''
+        break
+      case 'phone':
+        errors.phone = value.length < 9 ? 'Please write a valid number format' : ''
+        break
+      case 'email':
+        errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid!'
+        break
+      default:
+        break
+    }
 
     this.setState({
+      errors,
       [name]: value
     })
   }
 
   handleSubmit (e) {
     e.preventDefault()
+    
+    if(validateForm(this.state.errors)) {
+      const data = {
+        title: this.state.title,
+        price: this.state.price,
+        category: this.state.selectedCategory,
+        date: this.state.date,
+        email: this.state.email,
+        name: this.state.name,
+        phone: this.state.phone,
+        description: this.state.description
+      }
 
-    const data = {
-      title: this.state.title,
-      price: this.state.price,
-      category: this.state.selectedCategory,
-      date: this.state.date,
-      email: this.state.email,
-      name: this.state.name,
-      phone: this.state.phone,
-      description: this.state.description
-    }
-
-    fetch(`${host}/offers` ,{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(res => { 
-      return res.json()
-    })
-    .then(res => console.log('Success: ', res))
-    .catch(error => console.error('Error', error))
+      fetch(`${host}/offers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(res => {
+          return res.json()
+        })
+        .then(res => console.log('Success: ', res))
+        .catch(error => console.error('Error', error))
+    } else console.error('Invalid form')
   }
 
   openModal () {
@@ -88,6 +130,7 @@ class NewOffer extends React.Component {
   }
 
   render () {
+    const {errors} = this.state
     return (
       <div className='new-offer' id='new-offer'>
         <form className='form' onSubmit={this.handleSubmit}>
@@ -104,6 +147,7 @@ class NewOffer extends React.Component {
           <div className='form__input-block'>
             <label className='form__label'>Title: </label>
             <input className='form__input' type='text' name='title' id='title' onChange={this.handleInputChange} />
+            {errors.title.length > 0 && <span className='form__error'>{errors.title}</span>}
           </div>
           <div className='form__input-block'>
             <label className='form__label'>Price: </label>
@@ -112,18 +156,22 @@ class NewOffer extends React.Component {
           <div className='form__input-block'>
             <label className='form__label'>Description: </label>
             <textarea className='form__input description' name='description' id='description' onChange={this.handleInputChange} rows='10' />
+            {errors.description.length > 0 && <span className='form__error'>{errors.description}</span>}
           </div>
           <div className='form__input-block'>
             <label className='form__label'>Name: </label>
             <input className='form__input' type='text' name='name' id='name' onChange={this.handleInputChange} />
+            {errors.name.length > 0 && <span className='form__error'>{errors.name}</span>}
           </div>
           <div className='form__input-block'>
             <label className='form__label'>Phone no: </label>
             <input className='form__input' type='text' name='phone' id='phone' onChange={this.handleInputChange} />
+            {errors.phone.length > 0 && <span className='form__error'>{errors.phone}</span>}
           </div>
           <div className='form__input-block'>
             <label className='form__label'>E-mail: </label>
             <input className='form__input' type='text' name='email' id='email' onChange={this.handleInputChange} />
+            {errors.email.length > 0 && <span className='form__error'>{errors.email}</span>}
           </div>
           <div className='form__buttons'>
             <button className='form__button form__button--cancel' type='button' onClick={this.openModal}>Cancel</button>
