@@ -7,7 +7,7 @@ import host from '../../core/config'
 
 class OfferDetails extends React.Component {
   constructor (props) {
-    super (props)
+    super(props)
     this.state = {
       offerID: null,
       title: null,
@@ -21,21 +21,22 @@ class OfferDetails extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     fetch(`${host}/offer/${this.props.offerID}`, {
-      accept: 'application/json',
+      accept: 'application/json'
     })
       .then(res => res.json())
       .then(data => {
         const offer = data[0]
         this.setState(offer)
-      })  
+      })
   }
 
   render () {
     return (
       <div className='offer-details' offerid={this.state.offerID}>
-        <img src="https://www.stevensegallery.com/284/196" alt="offer_pic" className='offer-details__picture' />
+        <img src="https://www.stevensegallery.com/284/196" className='offer-details__picture'
+          alt="Miniature of one of offers photos." />
         <div className='offer-details__basics'>
           <div className='offer-details__title'>{this.state.title}</div>
           <div className='offer-details__price'>${this.state.price}</div>
@@ -46,15 +47,15 @@ class OfferDetails extends React.Component {
         </div>
         <div className='contact-info'>
           <div className='contact-info__name'>
-            <img src={ avatar } alt="avatar_icon" className='contact-info__icon' />
+            <img src={ avatar } className='contact-info__icon' alt="" />
             <span className='contact-info__text'>{this.state.name}</span>
           </div>
           <div className='contact-info__email'>
-            <img src={ email } alt="email_icon" className='contact-info__icon' />
+            <img src={ email } className='contact-info__icon' alt="" />
             <span className='contact-info__text'>{this.state.email}</span>
           </div>
           <div className='contact-info__phone'>
-            <img src={ phone } alt="phone_icon" className='contact-info__icon' />
+            <img src={ phone } className='contact-info__icon' alt="" />
             <span className='contact-info__text'>{this.state.phone}</span>
           </div>
         </div>

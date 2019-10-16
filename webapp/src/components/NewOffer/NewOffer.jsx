@@ -10,8 +10,7 @@ class NewOffer extends React.Component {
     this.state = {
       category: [],
       modalIsOpen: false,
-      selectedCategory: 'Art',
-      date: new Date().toLocaleString().slice(0,10)
+      selectedCategory: 'Art'
     }
 
     this.openModal = this.openModal.bind(this)
@@ -37,25 +36,26 @@ class NewOffer extends React.Component {
       title: this.state.title,
       price: this.state.price,
       category: this.state.selectedCategory,
-      date: this.state.date,
       email: this.state.email,
       name: this.state.name,
       phone: this.state.phone,
       description: this.state.description
     }
 
-    fetch(`${host}/offers` ,{
+    fetch(`${host}/offers`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-    .then(res => { 
-      return res.json()
-    })
-    .then(res => console.log('Success: ', res))
-    .catch(error => console.error('Error', error))
+      .then(res => {
+        return res.json()
+      })
+      .then(res => {
+        const id = JSON.stringify(res.id)
+        window.location.href = `/offers/${id}`
+      })
   }
 
   openModal () {
@@ -66,18 +66,9 @@ class NewOffer extends React.Component {
     this.setState({ modalIsOpen: false })
   }
 
-  getDate () {
-    const currentDate = new Date()
-    let currentMonth = currentDate.getMonth() + 1
-    let currentDay = currentDate.toString().slice(8, 10)
-    if (currentMonth < 10) currentMonth = '0' + currentMonth
-    const returnDate = currentDate.getFullYear() + '-' + currentMonth + '-' + currentDay
-    return returnDate
-  }
-
-  componentDidMount() {
-    fetch(`${host}/offers`, {
-      accept: 'application/json',
+  componentDidMount () {
+    fetch(`${host}/categories`, {
+      accept: 'application/json'
     })
       .then(res => res.json())
       .then(category => {
@@ -148,4 +139,5 @@ class NewOffer extends React.Component {
     )
   }
 }
+
 export default NewOffer
