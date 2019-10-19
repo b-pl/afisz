@@ -39,7 +39,7 @@ class NewOffer extends React.Component {
       email: this.state.email,
       name: this.state.name,
       phone: this.state.phone,
-      description: this.state.description
+      description: this.state.description,
     }
 
     fetch(`${host}/offers`, {
