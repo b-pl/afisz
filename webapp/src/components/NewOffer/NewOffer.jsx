@@ -7,6 +7,8 @@ import host from '../../core/config'
 const validEmailRegex = 
   RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
 
+const validPhoneRegex = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
+
 const validateForm = (errors) => {
   let valid = true
   Object.values(errors).forEach(
@@ -23,11 +25,11 @@ class NewOffer extends React.Component {
       modalIsOpen: false,
       selectedCategory: 'Art & Antiques',
       errors: {
-        title: '',
-        description: '',
-        name: '',
-        phone: '',
-        email: ''
+        title: ' ',
+        description: ' ',
+        name: ' ',
+        phone: ' ',
+        email: ' '
       }
     }
 
@@ -54,7 +56,7 @@ class NewOffer extends React.Component {
         errors.name = value.length < 3 ? 'Name must be at least 3 characters long' : ''
         break
       case 'phone':
-        errors.phone = value.length < 9 ? 'Please write a valid number format' : ''
+        errors.phone = validPhoneRegex.test(value) ? '' : 'Please write a valid number format (9 digits)'
         break
       case 'email':
         errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid!'
