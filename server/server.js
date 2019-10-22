@@ -74,10 +74,9 @@ function init () {
     path: '/offers',
     handler: async (request, h) => {
       const json = request.payload
+      json.date = new Date().toLocaleString().slice(0, 10)
       const data = await conn('offers_list').insert(json)
       const id = data[0]
-      const currentDate = new Date().toLocaleString().slice(0, 10)
-      await conn('offers_list').update({ date: currentDate }).where('id', id)
       return { id }
     }
   })
