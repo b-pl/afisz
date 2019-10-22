@@ -2,6 +2,7 @@ import React from 'react'
 import './NewOffer.css'
 import Modal from 'react-modal'
 import { A } from 'hookrouter'
+import host from '../../core/config'
 
 class NewOffer extends React.Component {
   constructor (props) {
@@ -9,7 +10,7 @@ class NewOffer extends React.Component {
     this.state = {
       category: [],
       modalIsOpen: false,
-      lastID: []
+      selectedCategory: 'Art'
     }
 
     this.openModal = this.openModal.bind(this)
@@ -30,6 +31,31 @@ class NewOffer extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
+
+    const data = {
+      title: this.state.title,
+      price: this.state.price,
+      category: this.state.selectedCategory,
+      email: this.state.email,
+      name: this.state.name,
+      phone: this.state.phone,
+      description: this.state.description,
+    }
+
+    fetch(`${host}/offers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => {
+        const id = JSON.stringify(res.id)
+        window.location.href = `/offers/${id}`
+      })
   }
 
   openModal () {
@@ -40,25 +66,14 @@ class NewOffer extends React.Component {
     this.setState({ modalIsOpen: false })
   }
 
-  getDate () {
-    const currentDate = new Date()
-    let currentMonth = currentDate.getMonth() + 1
-    let currentDay = currentDate.toString().slice(8, 10)
-    if (currentMonth < 10) currentMonth = '0' + currentMonth
-    if (currentDay < 10) currentDay = '0' + currentDay
-    const returnDate = currentDate.getFullYear() + '-' + currentMonth + '-' + currentDay
-    return returnDate
-  }
-
   componentDidMount () {
-    Promise.all([fetch(`http://localhost:3001/offers`), fetch(`http://localhost:3001/newofferID`)])
-      .then(([category, lastID]) => {
-        return Promise.all([category.json(), lastID.json()])
-      })
-      .then(([category, lastID]) => {
+    fetch(`${host}/categories`, {
+      accept: 'application/json'
+    })
+      .then(res => res.json())
+      .then(category => {
         this.setState({
-          category,
-          lastID
+          category
         })
       })
   }
@@ -66,10 +81,12 @@ class NewOffer extends React.Component {
   render () {
     return (
       <div className='new-offer' id='new-offer'>
-        <form className='form' action='http://localhost:3001/offers' method='POST'>
+        <form className='form' onSubmit={this.handleSubmit}>
           <div className='form__input-block'>
             <label className='form__label'>Category: </label>
-            <select name='category' className='form__input'>
+            <select name='category' className='form__input' onChange={
+              (e) => this.setState({ selectedCategory: e.target.value })
+            }>
               {this.state.category && this.state.category.map(category => (
                 <option value={category.category}>{category.category}</option>
               ))}
@@ -117,12 +134,10 @@ class NewOffer extends React.Component {
             </Modal>
             <button className='form__button form__button--submit' type='submit'>Add offer</button>
           </div>
-          {/* SEND offerID TO SERVER */}
-          <input type='hidden' name='offerID' value={this.state.lastID && this.state.lastID.map(ID => (ID.offerID + 1))}></input>
-          <input type='hidden' name='date' value={this.getDate()}></input>
         </form>
       </div>
     )
   }
 }
+
 export default NewOffer

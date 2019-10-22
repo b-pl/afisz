@@ -12,12 +12,17 @@ const app = {
 function init () {
   const server = Hapi.server({
     port: 3001,
-    host: 'localhost',
     routes: {
       cors: {
-        origin: ['*']
+        origin: ['*'],
+        headers: ['Authorization']
       }
+    },
+    debug: {
+      request: ['error']
     }
+    // !!! REMEMBER TO DELETE !!! DEBUG
+
   })
 
   const conn = knex({
@@ -47,7 +52,7 @@ function init () {
     path: '/offer/{id}',
     handler: (request, h) => {
       const dbOfferID = encodeURIComponent(request.params.id)
-      const dbOffer = conn.select().table('offers_list').where('offerID', dbOfferID)
+      const dbOffer = conn.select().table('offers_list').where('id', dbOfferID)
       return dbOffer
     }
   })
@@ -56,20 +61,10 @@ function init () {
   // Get categories list
   server.route({
     method: 'GET',
-    path: '/offers',
+    path: '/categories',
     handler: (request, h) => {
       const dbCategories = conn.select('category').from('categories_list').orderBy('category')
       return dbCategories
-    }
-  })
-
-  // Get IDs
-  server.route({
-    method: 'GET',
-    path: '/newofferID',
-    handler: (request, h) => {
-      const lastID = conn.select('offerID').from('offers_list').orderBy('offerID', 'desc').limit(1)
-      return lastID
     }
   })
 
@@ -77,11 +72,25 @@ function init () {
   server.route({
     method: 'POST',
     path: '/offers',
-    handler: (request, h) => {
-      return conn('offers_list').insert(request.payload)
-      .then(() => h.redirect('http://localhost:3000/offers/' + request.payload.offerID))
+    handler: async (request, h) => {
+      const json = request.payload
+      json.date = new Date().toLocaleString().slice(0, 10)
+      const data = await conn('offers_list').insert(json)
+      const id = data[0]
+      return { id }
     }
   })
+
+  // DELETE SELECTED ROWS
+  // !!! REMEMBER TO DELETE !!!
+  // server.route({
+  //   method: 'GET',
+  //   path: '/deleterows',
+  //   handler: (request, h) => {
+  //     const del = conn('offers_list').whereBetween('id', [133, 199]).del()
+  //     return del
+  //   }
+  // })
 
   process.on('unhandledRejection', (err) => {
     console.log(err)

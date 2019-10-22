@@ -8,7 +8,7 @@ const routes = {
   '/': () => <Homepage />,
   '/offers': () => <OffersList />,
   '/offers/:offerID': ({ offerID }) => <OfferDetails offerID={ offerID } />,
-  '/new-offer': () => <NewOffer />
+  '/new-offer': () => <NewOffer />,
 }
 
 export default routes
