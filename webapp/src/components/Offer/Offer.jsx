@@ -2,7 +2,7 @@ import React from 'react'
 import './Offer.css'
 import { A } from 'hookrouter'
 
-function Offer(props) {
+function Offer (props) {
   return (
     <div className='offer'>
       <A href={'/offers/' + props.offerID}><img src="https://www.stevensegallery.com/284/196" alt="offer_pic" className='offer__picture' /></A>

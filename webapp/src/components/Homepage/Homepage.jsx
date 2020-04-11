@@ -2,7 +2,6 @@ import React from 'react'
 import { A } from 'hookrouter'
 
 function Homepage (props) {
-
   return (
     <div>
       <p><A href='/offers'>Offers</A></p>

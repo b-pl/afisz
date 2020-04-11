@@ -189,4 +189,5 @@ class NewOffer extends React.Component {
     )
   }
 }
+
 export default NewOffer

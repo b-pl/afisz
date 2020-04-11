@@ -4,7 +4,7 @@ import host from '../../core/config'
 
 class OffersList extends React.Component {
   constructor (props) {
-    super (props)
+    super(props)
     this.state = {
       offers: [],
       categories: ['Art & Antiques',
@@ -59,9 +59,9 @@ class OffersList extends React.Component {
           ))
   }
 
-  componentDidMount() {
+  componentDidMount () {
     fetch(`${host}/offers_list`, {
-      accept: 'application/json',
+      accept: 'application/json'
     })
       .then(res => res.json())
       .then(offers => {

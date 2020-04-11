@@ -2,8 +2,8 @@ import React from 'react'
 import { A } from 'hookrouter'
 import './NoPageFound.css'
 
-function NoPageFound(props) {
-  return(
+function NoPageFound (props) {
+  return (
     <div className="container">
       <div className="emoji">
         <span role="img" aria-label="monkey">🙊</span>
@@ -18,4 +18,4 @@ function NoPageFound(props) {
   )
 }
 
-export default NoPageFound 
+export default NoPageFound
