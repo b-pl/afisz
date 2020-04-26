@@ -1,5 +1,5 @@
 import React from 'react'
-import './NewOffer.css'
+// import './NewOffer.css'
 import Modal from 'react-modal'
 import { A } from 'hookrouter'
 import host from '../../core/config'

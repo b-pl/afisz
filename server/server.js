@@ -90,6 +90,16 @@ function init () {
     }
   })
 
+  server.route({
+    method: 'GET',
+    path: '/newestOffers',
+    handler: (request, h) => {
+      const res = conn.select().table('offers_list').orderBy('date', 'desc').limit(6)
+
+      return res
+    }
+  })
+
   // DELETE SELECTED ROWS
   // !!! REMEMBER TO DELETE !!!
   // server.route({
