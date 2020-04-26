@@ -81,6 +81,28 @@ function init () {
     }
   })
 
+  // GET selected category
+  server.route({
+    method: 'GET',
+    path: '/offers_list/{cat}',
+    handler: (request, h) => {
+      const cat = encodeURIComponent(request.params.cat)
+      const offers_list = conn.select().table('offers_list').where('category', cat)
+
+      return offers_list
+    }
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/test',
+    handler: (request, h) => {
+      const res = conn.select().table('offers_list').where('category', null)
+
+      return res
+    }
+  })
+
   // DELETE SELECTED ROWS
   // !!! REMEMBER TO DELETE !!!
   // server.route({
