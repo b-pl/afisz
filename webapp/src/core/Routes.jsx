@@ -6,7 +6,7 @@ import NewOffer from '../components/NewOffer/NewOffer'
 
 const routes = {
   '/': () => <Homepage />,
-  '/offers': () => <OffersList />,
+  '/offers*': () => <OffersList />,
   '/offers/:offerID': ({ offerID }) => <OfferDetails offerID={ offerID } />,
   '/offers/category/:category': ({ category }) => <OffersList category={ category } />,
   '/new-offer': () => <NewOffer />,

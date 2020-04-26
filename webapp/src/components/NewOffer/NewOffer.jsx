@@ -24,6 +24,7 @@ class NewOffer extends React.Component {
       category: [],
       modalIsOpen: false,
       selectedCategory: 'Art & Antiques',
+      selectedCategoryID: 1,
       errors: {
         title: ' ',
         description: ' ',
@@ -37,6 +38,7 @@ class NewOffer extends React.Component {
     this.closeModal = this.closeModal.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.foo = this.foo.bind(this)
   }
 
   handleInputChange (e) {
@@ -82,7 +84,8 @@ class NewOffer extends React.Component {
         email: this.state.email,
         name: this.state.name,
         phone: this.state.phone,
-        description: this.state.description
+        description: this.state.description,
+        categoryID: this.state.selectedCategoryID
       }
 
       fetch(`${host}/offers`, {
@@ -122,6 +125,14 @@ class NewOffer extends React.Component {
       })
   }
 
+  foo (e) {
+    this.setState({ 
+      selectedCategory: this.state.category[e.target.value-1].category,
+      selectedCategoryID: e.target.value
+    })
+    console.log(this.state.category)
+  }
+
   render () {
     const {errors} = this.state
     return (
@@ -129,11 +140,12 @@ class NewOffer extends React.Component {
         <form className='form' onSubmit={this.handleSubmit}>
           <div className='form__input-block'>
             <label className='form__label'>Category: </label>
-            <select name='category' className='form__input' onChange={
+            {/* <select name='category' className='form__input' onChange={
               (e) => this.setState({ selectedCategory: e.target.value })
-            }>
+            }> */}
+            <select name='category' className='form__input' onChange={this.foo}>
               {this.state.category && this.state.category.map(category => (
-                <option value={category.category}>{category.category}</option>
+                <option label={category.category} value={category.id}>{category.category}</option>
               ))}
             </select>
           </div>
