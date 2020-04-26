@@ -36,16 +36,6 @@ function init () {
     }
   })
 
-  // Routing to OFFERS LIST
-  server.route({
-    method: 'GET',
-    path: '/offers_list',
-    handler: (request, h) => {
-      const dbOffersList = conn.select().table('offers_list')
-      return dbOffersList
-    }
-  })
-
   // Routing to OFFER DETAILS
   server.route({
     method: 'GET',
@@ -63,7 +53,7 @@ function init () {
     method: 'GET',
     path: '/categories',
     handler: (request, h) => {
-      const dbCategories = conn.select('category').from('categories_list').orderBy('category')
+      const dbCategories = conn.select().table('categories_list')
       return dbCategories
     }
   })
@@ -81,23 +71,20 @@ function init () {
     }
   })
 
-  // GET selected category
+  // Return offers
   server.route({
     method: 'GET',
-    path: '/offers_list/{cat}',
+    path: '/offers_list',
     handler: (request, h) => {
-      const cat = encodeURIComponent(request.params.cat)
-      const offers_list = conn.select().table('offers_list').where('category', cat)
+      const category = request.query.category
+      const order = request.query.orderby
+      const direction = request.query.direction
 
-      return offers_list
-    }
-  })
-
-  server.route({
-    method: 'GET',
-    path: '/test',
-    handler: (request, h) => {
-      const res = conn.select().table('offers_list').where('category', null)
+      const res = conn.select().table('offers_list').modify(function(queryBuilder) {
+        if(category != 0) {
+          queryBuilder.where('categoryID', category)
+        }
+      }).orderBy(order, direction)
 
       return res
     }
