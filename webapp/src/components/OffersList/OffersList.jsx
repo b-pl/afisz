@@ -1,9 +1,9 @@
-import React from 'react'
-import { useState, useEffect, useQueryParams } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import Offer from '../Offer/Offer'
 import host from '../../core/config'
 
-function OffersList() {
+function OffersList () {
   const [categories] = useState(['Art & Antiques',
     'Books',
     'Cell Phones',
@@ -24,7 +24,7 @@ function OffersList() {
 
   // Fetch offers
   useEffect(() => {
-    let url = `${host}/offers_list?category=0&orderby=date&direction=desc`
+    const url = `${host}/offers_list?category=0&orderby=date&direction=desc`
 
     fetch(url, {
       accept: 'application/json'
@@ -51,7 +51,7 @@ function OffersList() {
     if (sorting === '1' || sorting === '2') direction = 'asc'
     else direction = 'desc'
 
-    let url = `${host}/offers_list?category=${filter}&orderby=${order}&direction=${direction}`
+    const url = `${host}/offers_list?category=${filter}&orderby=${order}&direction=${direction}`
 
     fetch(url, {
       accept: 'application/json'
@@ -69,9 +69,9 @@ function OffersList() {
         <option key='0' value='0' label='All'>All</option>
         {categories && categories.map(cat => (
           <option
-            key={categories.indexOf(cat)+1}
+            key={categories.indexOf(cat) + 1}
             label={cat}
-            value={categories.indexOf(cat)+1}>{cat}</option>
+            value={categories.indexOf(cat) + 1 }>{cat}</option>
         ))}
       </select>
 

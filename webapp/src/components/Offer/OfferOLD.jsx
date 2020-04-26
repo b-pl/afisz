@@ -1,7 +1,6 @@
 import React from 'react'
-// import './Offer.css'
+import './Offer.css'
 import { A } from 'hookrouter'
-import { Box } from 'react-bulma-components';
 
 function Offer (props) {
   return (

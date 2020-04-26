@@ -30,6 +30,7 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/core": "^4.9.11",
     "bulma": "^0.8.2",
     "config": "^3.3.1",
     "eslint": "^6.8.0",
@@ -43,6 +44,7 @@
     "http-proxy-middleware": "^0.20.0",
     "node-sass": "^4.14.0",
     "react-bulma-components": "^3.2.0",
-    "react-modal": "^3.11.2"
+    "react-modal": "^3.11.2",
+    "typeface-roboto": "0.0.75"
   }
 }

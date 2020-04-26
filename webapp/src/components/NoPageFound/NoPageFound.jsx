@@ -1,6 +1,6 @@
 import React from 'react'
 import { A } from 'hookrouter'
-import './NoPageFound.css'
+// import './NoPageFound.css'
 
 function NoPageFound (props) {
   return (
