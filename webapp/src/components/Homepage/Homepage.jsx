@@ -48,7 +48,6 @@ function Homepage (props) {
       .then(res => res.json())
       .then(offers => {
         setOffers(offers)
-        console.log(offers)
       })
   }, [])
 
