@@ -53,7 +53,7 @@ function init () {
     method: 'GET',
     path: '/categories',
     handler: (request, h) => {
-      const dbCategories = conn.select().table('categories_list')
+      const dbCategories = conn.select('category').from('categories_list')
       return dbCategories
     }
   })

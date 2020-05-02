@@ -1,205 +1,240 @@
-import React from 'react'
-// import './NewOffer.css'
-import Modal from 'react-modal'
-import { A } from 'hookrouter'
+import React, { useState, useEffect } from 'react'
 import host from '../../core/config'
 
-const validEmailRegex = 
-  RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
+import 'typeface-roboto'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@material-ui/core/styles'
+import Select from '@material-ui/core/Select'
+import Button from '@material-ui/core/Button'
+import Modal from '@material-ui/core/Modal'
+import { A } from 'hookrouter'
 
-const validPhoneRegex = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)
 
-const validateForm = (errors) => {
-  let valid = true
-  Object.values(errors).forEach(
-    (val) => val.length > 0 && (valid = false)
-  )
-  return valid
+// !! MODAL FUNCTIONS !! -- BEGIN
+const rand = () => {
+  return Math.round(Math.random() * 20) - 10;
 }
 
-class NewOffer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      category: [],
-      modalIsOpen: false,
-      selectedCategory: 'Art & Antiques',
-      selectedCategoryID: 1,
-      errors: {
-        title: ' ',
-        description: ' ',
-        name: ' ',
-        phone: ' ',
-        email: ' '
-      }
-    }
+const getModalStyle = () => {
+  return {
+    width: '300px',
+    height: '200px',
+    position: 'absolute',
+    left: '50%',
+    top: '25%',
+    marginLeft: '-150px',
+    marginTop: '-100px',
+  }
+}
+// !! MODAL FUNCTIONS !! -- END
 
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.foo = this.foo.bind(this)
+const useStyles = makeStyles((theme) => ({
+  body: {
+    maxWidth: 1280,
+    margin: 'auto',
+    marginTop: '1em'
+  },
+  formElementsSpacing: {
+    margin: theme.spacing(1)
+  },
+  adjustmentColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '40%'
+  },
+  flexCenter: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  formButton: {
+    margin: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  paper: {
+    position: 'absolute',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  }
+}))
+
+function NewOffer () {
+  const classes = useStyles()
+  const [categoriesList, setCategoriesList] = useState()
+  const [offerData, setOfferData] = useState({
+    title: '',
+    price: '',
+    category: '',
+    email: '',
+    name: '',
+    phone: '',
+    description: '',
+    categoryID: ''
+  })
+
+  // !! MODAL VARIABLES !! -- BEGIN
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
   }
 
-  handleInputChange (e) {
-    const target = e.target
-    const value = target.value
-    const name = target.name
-    const errors = this.state.errors
-
-    switch(name) {
-      case 'title':
-        errors.title = value.length <= 3 ? 'Title must be longer than 3 characters!' : ''
-        break
-      case 'description':
-        errors.description = value.length <= 10 ? 'Description must containt at least one sentence' : ''
-        break
-      case 'name':
-        errors.name = value.length < 3 ? 'Name must be at least 3 characters long' : ''
-        break
-      case 'phone':
-        errors.phone = validPhoneRegex.test(value) ? '' : 'Please write a valid number format (9 digits)'
-        break
-      case 'email':
-        errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid!'
-        break
-      default:
-        break
-    }
-
-    this.setState({
-      errors,
-      [name]: value
-    })
+  const handleClose = () => {
+    setOpen(false);
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
-    
-    if(validateForm(this.state.errors)) {
-      const data = {
-        title: this.state.title,
-        price: this.state.price,
-        category: this.state.selectedCategory,
-        email: this.state.email,
-        name: this.state.name,
-        phone: this.state.phone,
-        description: this.state.description,
-        categoryID: this.state.selectedCategoryID
-      }
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title">Do you really wish to cancel?</h2>
+      <p id="simple-modal-description">
+       All data you have entered will be deleted and you will be redirected to Homepage.
+       To keep changes click outside this box.
+      </p>
+      <A href={'/'}>
+        <Button variant="text" color="secondary">
+          Delete offer
+      </Button>
+      </A>
+    </div>
+  )
+  // !! MODAL VARIABLES !! -- END
 
-      fetch(`${host}/offers`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then(res => {
-          return res.json()
-        })
-        .then(res => {
-          const id = JSON.stringify(res.id)
-          window.location.href = `/offers/${id}`
-        })
-    }
-  }
-
-  openModal () {
-    this.setState({ modalIsOpen: true })
-  }
-
-  closeModal () {
-    this.setState({ modalIsOpen: false })
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     fetch(`${host}/categories`, {
       accept: 'application/json',
     })
-      .then(res => res.json())
-      .then(category => {
-        this.setState({
-          category
-        })
+    .then(res => res.json())
+    .then(res => setCategoriesList(res))
+  }, [])
+
+  const handleInputChange = (e) => {
+    setOfferData({
+      ...offerData,
+      [e.target.id]: e.target.value
+    })
+  }
+
+  const handleCategorySelect = (e) => {
+    setOfferData({
+      ...offerData,
+      category: e.target.value,
+      categoryID: categoriesList.findIndex((element) => element.category === e.target.value)+1
+    })
+  }
+
+  const handleSubmit = (e) => {
+    fetch(`${host}/offers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(offerData),
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => {
+        const id = JSON.stringify(res.id)
+        window.location.href = `/offers/${id}`
       })
   }
-
-  foo (e) {
-    this.setState({ 
-      selectedCategory: this.state.category[e.target.value-1].category,
-      selectedCategoryID: e.target.value
-    })
-    console.log(this.state.category)
-  }
-
-  render () {
-    const {errors} = this.state
-    return (
-      <div className='new-offer' id='new-offer'>
-        <form className='form' onSubmit={this.handleSubmit}>
-          <div className='form__input-block'>
-            <label className='form__label'>Category: </label>
-            {/* <select name='category' className='form__input' onChange={
-              (e) => this.setState({ selectedCategory: e.target.value })
-            }> */}
-            <select name='category' className='form__input' onChange={this.foo}>
-              {this.state.category && this.state.category.map(category => (
-                <option label={category.category} value={category.id}>{category.category}</option>
-              ))}
-            </select>
-          </div>
-          <div className='form__input-block'>
-            <label className='form__label'>Title: </label>
-            <input className='form__input' type='text' name='title' id='title' onChange={this.handleInputChange} />
-            {errors.title.length > 0 && <span className='form__error'>{errors.title}</span>}
-          </div>
-          <div className='form__input-block'>
-            <label className='form__label'>Price: </label>
-            <input className='form__input price' type='number' name='price' id='price' onChange={this.handleInputChange} />
-          </div>
-          <div className='form__input-block'>
-            <label className='form__label'>Description: </label>
-            <textarea className='form__input description' name='description' id='description' onChange={this.handleInputChange} rows='10' />
-            {errors.description.length > 0 && <span className='form__error'>{errors.description}</span>}
-          </div>
-          <div className='form__input-block'>
-            <label className='form__label'>Name: </label>
-            <input className='form__input' type='text' name='name' id='name' onChange={this.handleInputChange} />
-            {errors.name.length > 0 && <span className='form__error'>{errors.name}</span>}
-          </div>
-          <div className='form__input-block'>
-            <label className='form__label'>Phone no: </label>
-            <input className='form__input' type='text' name='phone' id='phone' onChange={this.handleInputChange} />
-            {errors.phone.length > 0 && <span className='form__error'>{errors.phone}</span>}
-          </div>
-          <div className='form__input-block'>
-            <label className='form__label'>E-mail: </label>
-            <input className='form__input' type='text' name='email' id='email' onChange={this.handleInputChange} />
-            {errors.email.length > 0 && <span className='form__error'>{errors.email}</span>}
-          </div>
-          <div className='form__buttons'>
-            <button className='form__button form__button--cancel' type='button' onClick={this.openModal}>Cancel</button>
-            <Modal
-              className='modal__content'
-              overlayClassName='modal__overlay'
-              isOpen={this.state.modalIsOpen}
-              onAfterOpen={this.state.afterOpenModal}
-              onRequestClose={this.state.closeModal}
-              contentLabel='Cancel adding new offer'>
-              <p>Do you really wish to cancel?</p>
-              <p>All data you have entered will be deleted and you will be redirected to Homepage.</p>
-              <div className='modal__buttons'>
-                <A href={'/'}><button className='modal__button--cancel'>Delete offer</button></A>
-                <button onClick={this.closeModal} className='modal__button--submit'>Keep offer</button>
-              </div>
-            </Modal>
-            <button className='form__button form__button--submit' type='submit'>Add offer</button>
-          </div>
+ 
+  return (
+    <div className={classes.body}>
+      <Paper elevation={3} className={classes.flexCenter}>
+        <form className={classes.adjustmentColumn}>
+          <FormControl className={classes.formElementsSpacing}>
+            <TextField
+              id='title'
+              label='Title'
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl className={classes.formElementsSpacing}>
+            <InputLabel htmlFor="category-native-simple">Category</InputLabel>
+            <Select
+              id='category'
+              native
+              value={offerData.category}
+              label='Category'
+              onChange={handleCategorySelect}
+            >
+              <option aria-label='Not selected' value='' />
+              {categoriesList && categoriesList.map(cat => (
+                  <option id={cat.id} value={cat.category}>{cat.category}</option>
+                ))}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formElementsSpacing}>
+            <TextField
+              id='description'
+              label="Description"
+              multiline
+              rows={5}
+              placeholder='Describe your offer here...'
+              variant="outlined"
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl className={classes.formElementsSpacing}>
+            <TextField
+              id='price'
+              label='Price'
+              type='number'
+              InputLabelProps={{
+                shrink: true
+              }}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl className={classes.formElementsSpacing}>
+            <TextField
+              id='name'
+              label='Name'
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl className={classes.formElementsSpacing}>
+            <TextField
+              id='phone'
+              label='Phone'
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl className={classes.formElementsSpacing}>
+            <TextField
+              id='email'
+              label='E-mail'
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl className={classes.formButton}>
+            <Button variant="text" color="secondary" onClick={handleOpen}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Add offer
+            </Button>
+          </FormControl>
         </form>
-      </div>
-    )
-  }
+      </Paper>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {body}
+      </Modal>
+    </div>
+  )
 }
 
 export default NewOffer

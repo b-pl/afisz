@@ -2,6 +2,35 @@ import React, { useState, useEffect } from 'react'
 
 import Offer from '../Offer/Offer'
 import host from '../../core/config'
+import { A } from 'hookrouter'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import { makeStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import 'typeface-roboto'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+const useStyles = makeStyles((theme) => ({
+  row: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  body: {
+    maxWidth: 1280,
+    margin: 'auto'
+  },
+  space: {
+    margin: theme.spacing(1)
+  },
+  noUnderline: {
+    textDecoration: 'none'
+  }
+}))
+
+// Fetch categories from server
 
 function OffersList () {
   const [categories] = useState(['Art & Antiques',
@@ -21,10 +50,20 @@ function OffersList () {
   const [offers, setOffers] = useState([])
   const [filter, setFilter] = useState('0')
   const [sorting, setSorting] = useState('0')
+  const classes = useStyles()
+  const [open, setOpen] = React.useState(false)
+  const [open2, setOpen2] = React.useState(false)
 
   // Fetch offers
   useEffect(() => {
-    const url = `${host}/offers_list?category=0&orderby=date&direction=desc`
+    const parsedURL = new URL(window.location.href)
+    let category = parsedURL.searchParams.get('category')
+    let orderby = parsedURL.searchParams.get('orderby')
+    let direction = parsedURL.searchParams.get('direction')
+    if (category === null) category = '0'
+    if (orderby === null) orderby = 'date'
+    if (direction === null) direction = 'desc'
+    const url = `${host}/offers_list?category=${category}&orderby=${orderby}&direction=${direction}`
 
     fetch(url, {
       accept: 'application/json'
@@ -33,13 +72,7 @@ function OffersList () {
       .then(offers => {
         setOffers(offers)
       })
-  }, [])
-
-  const handleSelect = (e) => {
-    if (e.target.id === 'category') return setFilter(e.target.value)
-
-    return setSorting(e.target.value)
-  }
+  }, []) 
 
   const sendRequest = () => {
     let order = 'date'
@@ -60,40 +93,113 @@ function OffersList () {
       .then(offers => {
         setOffers(offers)
       })
+
+    // Change URL in browse w/o reloading
+    window.history.pushState('', '', `/offers?category=${filter}&orderby=${order}&direction=${direction}`)
+  }
+
+// handleClose & handleOpen change to toggleSelect(selectID, bool)
+// Where selectID = categories/orderBy; bool = true/false
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose2 = () => {
+    setOpen2(false)
+  }
+
+  const handleOpen2 = () => {
+    setOpen2(true)
+  }
+
+  const handleSelectCategory = (e) => {
+    return setFilter(e.target.value)
+  }
+
+  const handleSelectOrder = (e) => {
+    return setSorting(e.target.value)
   }
 
   return (
-    <div>
-      {/* Dropdown - filter */}
-      <select id='category' name='categorySelect' onChange={handleSelect}>
-        <option key='0' value='0' label='All'>All</option>
-        {categories && categories.map(cat => (
-          <option
-            key={categories.indexOf(cat) + 1}
-            label={cat}
-            value={categories.indexOf(cat) + 1 }>{cat}</option>
-        ))}
-      </select>
+    <div className={classes.body}>
+      <AppBar position='static' color='inherit'>
+        <Toolbar className={classes.row}>
+          <div>
+            <A href='/new-offer' className={classes.noUnderline}><Button variant='contained' color='primary'>Add offer</Button></A>
+            <A href='/' className={classes.noUnderline}><Button color='secondary'>Homepage</Button></A>
+          </div>
 
-      {/* Dropdown - sort */}
-      <select id='sort' name='sort' onChange={handleSelect}>
-        <option label='date-desc' value='0'>New first</option>
-        <option label='date-asce' value='1'>Old first</option>
-        <option label='price-asce' value='2'>Price ascending</option>
-        <option label='price-desc' value='3'>Price descending</option>
-      </select>
-
-      <button onClick={sendRequest}>Submit</button>
+          <div>
+            <div className={classes.row}>
+              <FormControl className={classes.space}>
+              <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={open}
+                onClose={handleClose}
+                onOpen={handleOpen}
+                value={filter}
+                onChange={handleSelectCategory}
+              >
+                <MenuItem key='0' value='0'>
+                  <em>All</em>
+                </MenuItem>
+                {categories && categories.map(cat => (
+                  <MenuItem
+                    key={categories.indexOf(cat) + 1}
+                    label={cat}
+                    value={categories.indexOf(cat) + 1}>{cat}</MenuItem>
+                ))}
+              </Select>
+              </FormControl>
+              
+              <FormControl className={classes.space}>
+              <InputLabel id="demo-controlled-open-select-label">Sort</InputLabel>
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={open2}
+                onClose={handleClose2}
+                onOpen={handleOpen2}
+                value={sorting}
+                onChange={handleSelectOrder}
+              >
+                <MenuItem value='0'>
+                  <em>New first</em>
+                </MenuItem>
+                <MenuItem value='1'>
+                  <em>Old first</em>
+                </MenuItem>
+                <MenuItem value='2'>
+                  <em>Price ascending</em>
+                </MenuItem>
+                <MenuItem value='3'>
+                  <em>Price descending</em>
+                </MenuItem>
+              </Select>
+              </FormControl>
+              <Button style={{height: '50%', margin: 'auto'}} variant='contained' color='primary' onClick={sendRequest}>Filter</Button>
+            </div>
+          </div>
+        </Toolbar>
+      </AppBar>
 
       {/* Show offers */}
       {offers && offers.map(offer => (
+        <A href={'/offers/' + offer.id} className={classes.noUnderline} key={offers.indexOf(offer)}>
         <Offer
           key={offers.indexOf(offer)}
           title={offer.title}
           price={offer.price}
           category={offer.category}
           date={offer.date}
-          offerID={offer.id} />
+          offerID={offer.id} /></A>
       ))}
     </div>
   )
