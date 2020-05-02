@@ -1,67 +1,116 @@
-import React from 'react'
-import './OfferDetails.css'
-import avatar from '../../images/avatar_placeholder.png'
-import email from '../../images/email_placeholder.png'
-import phone from '../../images/phone_placeholder.png'
+import React, { useState, useEffect } from 'react'
 import host from '../../core/config'
+import { Typography } from '@material-ui/core'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import 'typeface-roboto'
+import { makeStyles } from '@material-ui/core/styles'
+import placeholder from '../../images/placeholder.png'
+import Icon from '@material-ui/core/Icon'
+import Breadcrumbs from '@material-ui/core/Breadcrumbs'
+import Link from '@material-ui/core/Link'
 
-class OfferDetails extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      offerID: null,
-      title: null,
-      price: null,
-      category: null,
-      date: null,
-      email: null,
-      name: null,
-      phone: null,
-      description: null
-    }
+const useStyles = makeStyles({
+  root: {
+    width: 345,
+    margin: 10
+  },
+  media: {
+    height: 140
+  },
+  row: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  noUnderline: {
+    textDecoration: 'none'
+  },
+  body: {
+    maxWidth: 900,
+    margin: 'auto'
+  },
+  description: {
+    height: 150,
+    marginTop: '1em',
+    marginBottom: '1em'
+  },
+  personalInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '0.5em'
+  },
+  personalInfoIcon: {
+    marginRight: '0.5em'
+  },
+  breadCrumb: {
+    marginTop: '1em',
+    marginLeft: '1em',
+    marginBottom: '0.5em'
   }
+})
 
-  componentDidMount () {
-    fetch(`${host}/offer/${this.props.offerID}`, {
+function OfferDetails (props) {
+  const [offer, setOffer] = useState({})
+  const classes = useStyles()
+
+  useEffect(() => {
+    fetch(`${host}/offer/${props.offerID}`, {
       accept: 'application/json'
     })
       .then(res => res.json())
       .then(data => {
-        const offer = data[0]
-        this.setState(offer)
+        let tempOffer = {}
+        for (const [key, value] of Object.entries(data[0])) {
+          tempOffer = {
+            ...tempOffer,
+            [key]: value
+          }
+        }
+        setOffer(tempOffer)
       })
-  }
+  }, [])
 
-  render () {
-    return (
-      <div className='offer-details' offerid={this.state.offerID}>
-        <img src="https://www.stevensegallery.com/284/196" className='offer-details__picture'
-          alt="Miniature of one of offers photos." />
-        <div className='offer-details__basics'>
-          <div className='offer-details__title'>{this.state.title}</div>
-          <div className='offer-details__price'>${this.state.price}</div>
-        </div>
-        <div className='offer-details__extras'>{this.state.category}, {this.state.date}</div>
-        <div className='offer-details__description'>
-          <div className='offer-description__text'>{this.state.description}</div>
-        </div>
-        <div className='contact-info'>
-          <div className='contact-info__name'>
-            <img src={ avatar } className='contact-info__icon' alt="" />
-            <span className='contact-info__text'>{this.state.name}</span>
-          </div>
-          <div className='contact-info__email'>
-            <img src={ email } className='contact-info__icon' alt="" />
-            <span className='contact-info__text'>{this.state.email}</span>
-          </div>
-          <div className='contact-info__phone'>
-            <img src={ phone } className='contact-info__icon' alt="" />
-            <span className='contact-info__text'>{this.state.phone}</span>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  return (
+    <div className={classes.body}>
+      <Card>
+        <Breadcrumbs aria-label='breadcrumb' className={classes.breadCrumb}>
+          <Link color='inherit' href='/'>
+            Homepage
+          </Link>
+          <Link color='inherit' href={`/offers?category=${offer.categoryID}&orderby=date&direction=desc`}>
+            {offer.category}
+          </Link>
+          <Typography color="textPrimary">{offer.title}</Typography>
+        </Breadcrumbs>
+        <CardMedia
+          className={classes.media}
+          image={placeholder}
+          title='placeholder'
+        />
+        <CardContent>
+          <Typography variant='h5' color='primary'>
+            {offer.title}
+          </Typography>
+          <Typography variant='h6' color='secondary'>
+            ${offer.price}
+          </Typography>
+          <Typography variant='body1' color='textPrimary' className={classes.description}>
+            {offer.description}
+          </Typography>
+          <Typography className={classes.personalInfo}>
+            <Icon className={classes.personalInfoIcon}>account_circle</Icon>{offer.name}
+          </Typography>
+          <Typography className={classes.personalInfo}>
+            <Icon className={classes.personalInfoIcon}>email</Icon>{offer.email}
+          </Typography>
+          <Typography className={classes.personalInfo}>
+            <Icon className={classes.personalInfoIcon}>phone</Icon>{offer.phone}
+          </Typography>
+        </CardContent>
+      </Card>
+    </div>
+  )
 }
 
 export default OfferDetails

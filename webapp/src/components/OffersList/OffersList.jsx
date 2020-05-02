@@ -24,8 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
   space: {
     margin: theme.spacing(1)
+  },
+  noUnderline: {
+    textDecoration: 'none'
   }
 }))
+
+// Fetch categories from server
 
 function OffersList () {
   const [categories] = useState(['Art & Antiques',
@@ -51,7 +56,14 @@ function OffersList () {
 
   // Fetch offers
   useEffect(() => {
-    const url = `${host}/offers_list?category=0&orderby=date&direction=desc`
+    const parsedURL = new URL(window.location.href)
+    let category = parsedURL.searchParams.get('category')
+    let orderby = parsedURL.searchParams.get('orderby')
+    let direction = parsedURL.searchParams.get('direction')
+    if (category === null) category = '0'
+    if (orderby === null) orderby = 'date'
+    if (direction === null) direction = 'desc'
+    const url = `${host}/offers_list?category=${category}&orderby=${orderby}&direction=${direction}`
 
     fetch(url, {
       accept: 'application/json'
@@ -60,9 +72,7 @@ function OffersList () {
       .then(offers => {
         setOffers(offers)
       })
-  }, [])
-
-  
+  }, []) 
 
   const sendRequest = () => {
     let order = 'date'
@@ -83,7 +93,13 @@ function OffersList () {
       .then(offers => {
         setOffers(offers)
       })
+
+    // Change URL in browse w/o reloading
+    window.history.pushState('', '', `/offers?category=${filter}&orderby=${order}&direction=${direction}`)
   }
+
+// handleClose & handleOpen change to toggleSelect(selectID, bool)
+// Where selectID = categories/orderBy; bool = true/false
 
   const handleClose = () => {
     setOpen(false)
@@ -176,13 +192,14 @@ function OffersList () {
 
       {/* Show offers */}
       {offers && offers.map(offer => (
+        <A href={'/offers/' + offer.id} className={classes.noUnderline} key={offers.indexOf(offer)}>
         <Offer
           key={offers.indexOf(offer)}
           title={offer.title}
           price={offer.price}
           category={offer.category}
           date={offer.date}
-          offerID={offer.id} />
+          offerID={offer.id} /></A>
       ))}
     </div>
   )

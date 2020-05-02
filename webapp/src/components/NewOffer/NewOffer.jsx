@@ -19,13 +19,14 @@ const rand = () => {
 }
 
 const getModalStyle = () => {
-  const top = 50 + rand();
-  const left = 55 + rand();
-
   return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    width: '300px',
+    height: '200px',
+    position: 'absolute',
+    left: '50%',
+    top: '25%',
+    marginLeft: '-150px',
+    marginTop: '-100px',
   }
 }
 // !! MODAL FUNCTIONS !! -- END
@@ -56,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     position: 'absolute',
-    width: 400,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -69,13 +69,13 @@ function NewOffer () {
   const [categoriesList, setCategoriesList] = useState()
   const [offerData, setOfferData] = useState({
     title: '',
-    category: '',
-    categoryID: '',
-    description: '',
     price: '',
+    category: '',
+    email: '',
     name: '',
     phone: '',
-    email: ''
+    description: '',
+    categoryID: ''
   })
 
   // !! MODAL VARIABLES !! -- BEGIN
